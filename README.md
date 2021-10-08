@@ -8,7 +8,7 @@ Once a Pokémon is caught, you will unlock the `Pokédex Button` to view and man
 
 Pokédex data is stored via `LocalStorage` for your convenience. Good luck catching 'em all!
 
-## Scripts
+## Available Scripts
 
 In the project directory, you can run:
 
