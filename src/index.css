@@ -1,5 +1,13 @@
+:root {
+  --white: #fff;
+  --gray: #eee;
+  --red: #e53935;
+  --black: #212121;
+}
+
 body {
   margin: 0;
+  overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -7,7 +15,439 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.App {
+  min-height: 100vh;
+  transition: background 0.25s ease-in-out;
+}
+
+.App:after {
+  content: '';
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  position: absolute;
+  background: radial-gradient(
+    circle,
+    rgba(000, 000, 000, 0) 0%,
+    rgba(000, 000, 000, 0.3) 100%
+  );
+  z-index: 0;
+}
+
+/* Pokemon */
+#pokemon {
+  background-color: #fff;
+  box-shadow: 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  width: 85vw;
+  height: 85vw;
+  max-width: 480px;
+  max-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  position: absolute;
+  top: calc(50% - 20px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+#pokemon > .pokemonImage {
+  width: 80%;
+  image-rendering: pixelated;
+  transition: 0.5s ease-out all;
+  animation: 2s fadeIn;
+  -webkit-animation: 2s fadeIn;
+  -moz-animation: 2s fadeIn;
+  -o-animation: 2s fadeIn;
+  -ms-animation: 2s fadeIn;
+}
+
+#pokemon > .pokemonImage.catching {
+  filter: brightness(10) blur(50px);
+  transform: scale(0);
+  transform-origin: center;
+}
+
+#pokemon > p {
+  font-size: 15px;
+  text-transform: capitalize;
+  display: block;
+  float: left;
+  margin: 0;
+  padding: 0 20px;
+  min-width: 160px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.52);
+  position: absolute;
+  top: -20px;
+  background-color: rgba(240, 240, 240, 1);
+  border-radius: 20px;
+  box-shadow: 0 2px rgba(0, 0, 0, 0.1), 0 1px inset rgba(255, 255, 255, 0.4);
+  height: 40px;
+  font-weight: 700;
+  transition: 0.25s ease-in-out color;
+}
+
+#pokemon > p > span {
+  font-size: 62%;
+  color: rgba(0, 0, 0, 0.52);
+  display: block;
+  width: 100%;
+  margin-bottom: -1px;
+  margin-top: 7px;
+  text-transform: uppercase;
+  animation: 1s fadeIn;
+  -webkit-animation: 1s fadeIn;
+  -moz-animation: 1s fadeIn;
+  -o-animation: 1s fadeIn;
+  -ms-animation: 1s fadeIn;
+}
+
+#pokemon > p > strong {
+  animation: 1s fadeIn;
+  -webkit-animation: 1s fadeIn;
+  -moz-animation: 1s fadeIn;
+  -o-animation: 1s fadeIn;
+  -ms-animation: 1s fadeIn;
+}
+
+#catch {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+  transition: backdrop-filter 0.1s ease-in-out;
+  transition-delay: 0.1s;
+  backdrop-filter: blur(0px);
+}
+
+#catch:before {
+  content: '';
+  left: 0;
+  top: 0;
+  background: #000;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.1s ease-in-out;
+}
+
+#catch.active {
+  height: 100%;
+  width: 100%;
+  display: block;
+  opacity: 1;
+  backdrop-filter: blur(1px);
+}
+
+#catch.active:before {
+  opacity: 0.4;
+}
+
+#actions {
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 -2px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  height: 36px;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: all 0.5s ease-in-out;
+}
+
+#actions > button {
+  background-color: #c7f464;
+  border: none;
+  box-shadow: 0 5px #a7d454, 0 2px 10px rgba(0, 0, 0, 0.3),
+    0 0px 0px inset rgba(0, 0, 0, 0);
+  box-sizing: border-box;
+  width: 96px;
+  height: 96px;
+  border-radius: 50% 50% 0 0;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  position: relative;
+  font-size: 48px;
+  line-height: 48px;
+  padding: 0;
+  margin: -40px 4px 0 4px;
+}
+
+#actions > button.disabled {
+  cursor: wait;
+}
+
+#actions > button > svg {
+  margin-top: 12px;
+  transition: filter 0.25s ease-in-out;
+}
+
+#actions > button:hover {
+  filter: saturate(1.6);
+}
+
+#actions > button:active {
+  box-shadow: 0 1px #a7d454, 0 1px 5px rgba(0, 0, 0, 0.2),
+    0 3px 6px inset rgba(117, 85, 85, 0.2);
+  background-color: #b7e454;
+  color: rgba(255, 255, 255, 0.8);
+  transform: translateY(2px);
+  transition: 25ms ease-in-out all;
+}
+
+#actions > button.catch {
+  background-color: #e46d78;
+  box-shadow: 0 5px #a44d58, 0 2px 10px rgba(0, 0, 0, 0.3),
+    0 0px 0px inset rgba(0, 0, 0, 0);
+}
+
+#actions > button.catch:active {
+  box-shadow: 0 1px #b44d58, 0 1px 5px rgba(0, 0, 0, 0.2),
+    0 3px 6px inset rgba(0, 0, 0, 0.2);
+  background-color: #c45d68;
+  transform: translateY(2px);
+}
+
+#actions > button.pokedex {
+  transform: scaleY(0);
+  transform-origin: bottom;
+  width: 0;
+  margin: -40px 0 0 0;
+  background-color: #30a7d7;
+  box-shadow: 0 5px #006797, 0 2px 10px rgba(0, 0, 0, 0.3),
+    0 0px 0px inset rgba(0, 0, 0, 0);
+  filter: brightness(1) saturate(1);
+}
+
+#actions > button.pokedex.active {
+  transform: scaleY(1);
+  width: 96px;
+  margin: -40px 4px 0 4px;
+  filter: brightness(1) saturate(1);
+  transform: scaleY(1) translateY(0px);
+  transition: 0.3s ease-in-out all;
+}
+
+#actions > button.pokedex.active:hover {
+  filter: brightness(1) saturate(1.5);
+}
+
+#actions > button.pokedex.active.flash {
+  filter: brightness(1) saturate(4);
+  transform: scaleY(1) translateY(-15px);
+}
+
+#actions > button.pokedex.active.flash > svg {
+  color: #fff;
+}
+
+#actions > button.pokedex:active {
+  box-shadow: 0 1px #1077a7, 0 1px 5px rgba(0, 0, 0, 0.2),
+    0 3px 6px inset rgba(0, 0, 0, 0.2);
+  background-color: #50c7e7;
+  transform: translateY(2px);
+}
+
+#actions > button.pokedex > svg {
+  opacity: 0;
+  transform: scaleX(0);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+#actions > button.pokedex.active > svg {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+#actions > button.pokedex:active {
+  box-shadow: 0 1px #0067a7, 0 1px 5px rgba(0, 0, 0, 0.2),
+    0 3px 6px inset rgba(0, 0, 0, 0.3);
+  background-color: #1087b7;
+  transform: translateY(2px);
+  transition: 25ms ease-in-out all;
+}
+
+.pokeball {
+  opacity: 0;
+  filter: brightness(0.7);
+  transform-origin: center;
+  transition: 0.25s ease-in-out opacity, 0.5s ease-in-out transform;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 101;
+  width: 300px;
+  height: 300px;
+  margin-left: -170px;
+  margin-top: -187.5px;
+  transform: translate(0vh, 0vh) rotate(0deg) scale(0.1);
+  background: linear-gradient(
+    to bottom,
+    var(--red),
+    var(--red) 48%,
+    var(--black) 48%,
+    var(--black) 55%,
+    var(--white) 55%
+  );
+  border-radius: 50%;
+  border: 20px solid var(--black);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), inset 8px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.pokeball.active {
+  opacity: 1;
+  filter: blur(0) brightness(0.7);
+  transition-delay: 0.25s;
+  transform: translate(0vh, 0vh) rotate(0deg) scale(0.25);
+}
+
+.pokeball.active.throw {
+  filter: blur(0) brightness(1);
+  transition-delay: 0;
+  opacity: 1;
+  animation: throw;
+  animation-duration: 1500ms;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.pokeball.active.catching {
+  filter: blur(0) brightness(1.5);
+  animation-name: shake;
+  animation-duration: 900ms;
+  animation-iteration-count: 3;
+  animation-fill-mode: forwards;
+  animation-delay: 500ms;
+}
+
+.pokeball.finished {
+  opacity: 1;
+  filter: blur(0) brightness(0.7);
+  transition: 0.25s ease-in-out all;
+}
+
+.pokeball.finished.clear {
+  opacity: 1;
+  filter: blur(0) brightness(0.7);
+  transition: 0.5s ease-in-out all;
+}
+
+.pokeball:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+}
+
+.pokeball:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  background-color: var(--white);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 15px solid var(--black);
+  box-shadow: -5px -3px 0 rgba(0, 0, 0, 0.2);
+}
+
+@keyframes throw {
+  0% {
+    transform: translate(0vh, -5vh) rotate(0) scale(2);
+    filter: blur(30px);
+  }
+  15% {
+    transform: translate(0, -42vh) rotate(360deg) scale(1.9);
+    filter: blur(30px);
+  }
+  30% {
+    transform: translate(0, -50vh) rotate(720deg) scale(1.8);
+    filter: blur(30px);
+  }
+
+  45% {
+    transform: translate(0, -48vh) rotate(1080deg) scale(1.5);
+    filter: blur(15px);
+  }
+
+  60% {
+    transform: translate(0, -45vh) rotate(1440deg) scale(1.1);
+    filter: blur(8px);
+  }
+
+  75% {
+    transform: translate(0, -32vh) rotate(1800deg) scale(0.8);
+    filter: blur(4px);
+  }
+  85% {
+    transform: translate(0, -20vh) rotate(2160deg) scale(0.5);
+    filter: blur(3px);
+  }
+  95% {
+    transform: translate(0, 0vh) rotate(2520deg) scale(0.23);
+    filter: blur(2px) brightness(1.5);
+  }
+  97% {
+    transform: translate(0, -1vh) rotate(2530deg) scale(0.22);
+    filter: blur(1px) brightness(1.5);
+  }
+  98% {
+    transform: translate(0, -2vh) rotate(2535deg) scale(0.23);
+    filter: blur(1px) brightness(2);
+  }
+  99% {
+    transform: translate(0, -1vh) rotate(2530deg) scale(0.24);
+    filter: blur(1px) brightness(1.5);
+  }
+  100% {
+    transform: translate(0, 0vh) rotate(2520deg) scale(0.25);
+    filter: blur(0) brightness(1.5);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0) rotate(0) scale(0.25);
+  }
+  15% {
+    transform: translateX(-10px) rotate(-10deg) scale(0.25);
+  }
+  40% {
+    transform: translateX(-15px) rotate(-15deg) scale(0.25);
+  }
+  60% {
+    transform: translateX(15px) rotate(15deg) scale(0.25);
+  }
+  100% {
+    transform: translateX(0) rotate(0) scale(0.25);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
