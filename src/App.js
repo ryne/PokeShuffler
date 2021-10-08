@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import axios from 'axios';
+import Pokedex from './components/Pokedex';
 import PokemonCard from './components/PokemonCard';
 import CatchPokemon from './components/CatchPokemon';
 import ActionsBar from './components/ActionsBar';
@@ -8,9 +9,9 @@ import { usePalette } from 'react-palette';
 function App() {
   const initRandom = Math.floor(Math.random() * 898) + 1;
   const [appLoading, setAppLoading] = useState(false);
+  const [myPokedex, setMyPokedex] = useState(localStorage.getItem('Pokedex'));
   const [pokedex, setPokedex] = useState(false);
   const [catchEm, setCatchEm] = useState(false);
-
   const [pokemon, setPokemon] = useState(
     `https://pokeapi.co/api/v2/pokemon/${initRandom}`
   );
@@ -20,6 +21,10 @@ function App() {
   const [title, setTitle] = useState("Gotta Catch 'Em All!");
 
   const { data, loading } = usePalette(sprite);
+
+  useLayoutEffect(() => {
+    myPokedex !== null ? setPokedex(true) : setPokedex(false);
+  }, []);
 
   useEffect(() => {
     document.title = title;
@@ -73,6 +78,17 @@ function App() {
             setTimeout(() => {
               setName(`Caught ${name}!`);
               setTitle(`Caught ${name.toUpperCase()}!`);
+              setMyPokedex(
+                myPokedex !== null
+                  ? `${number.toString()},${myPokedex.toString()}`
+                  : number
+              );
+              localStorage.setItem(
+                'Pokedex',
+                myPokedex !== null
+                  ? `${number.toString()},${myPokedex.toString()}`
+                  : number.toString()
+              );
 
               setTimeout(() => {
                 setPokedex(true);
@@ -98,6 +114,7 @@ function App() {
 
   return (
     <div className="App" style={{ background: `${data.lightVibrant}` }}>
+      <Pokedex myPokedex={myPokedex} />
       <PokemonCard
         appLoading={appLoading}
         sprite={sprite}
