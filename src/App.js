@@ -24,7 +24,7 @@ function App() {
 
   useLayoutEffect(() => {
     myPokedex !== null ? setPokedex(true) : setPokedex(false);
-  }, []);
+  }, [myPokedex]);
 
   useEffect(() => {
     document.title = title;
