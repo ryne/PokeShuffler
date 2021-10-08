@@ -2,7 +2,7 @@
 
 A simple CRUD project built with ReactJS and [PokéAPI](https://pokeapi.co/)
 
-## Available Scripts
+## Scripts
 
 In the project directory, you can run:
 
