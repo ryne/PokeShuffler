@@ -105,7 +105,6 @@ function App() {
         number={number}
         data={data}
       />
-
       <ActionsBar
         loading={loading}
         shufflePokemon={shufflePokemon}
