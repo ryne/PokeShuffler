@@ -1,6 +1,6 @@
 # PokéShuffler
 
-A simple CRUD project built with ReactJS and [https://pokeapi.co/](PokéAPI)
+A simple CRUD project built with ReactJS and [PokéAPI](https://pokeapi.co/)
 
 ## Available Scripts
 
