@@ -121,6 +121,7 @@ function App() {
         name={name}
         number={number}
         data={data}
+        catchEm={catchEm}
       />
       <ActionsBar
         loading={loading}

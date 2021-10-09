@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class PokemonCard extends Component {
   render() {
     return (
-      <div id="pokemon">
+      <div id="pokemon" className={this.props.catchEm ? 'active' : ''}>
         {this.props.appLoading ? (
           <>
             <p>
