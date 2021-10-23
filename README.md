@@ -1,6 +1,7 @@
 # PokéShuffler
 
-A simple CRUD project built with ReactJS and [PokéAPI](https://pokeapi.co/).
+Catch Pokémon and manage them in your Pokédex.
+Built with ReactJS and [PokéAPI](https://pokeapi.co/).
 
 Generate a randomized Pokémon by pressing the `Shuffle Button`.\
 Catch the current Pokémon by hitting the `Pokéball Button`.\
