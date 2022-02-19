@@ -1,7 +1,8 @@
 # PokéShuffler
 
-Catch Pokémon and manage them in your Pokédex.
-Built with ReactJS and [PokéAPI](https://pokeapi.co/).
+[Demo](https://gallant-lamarr-dffb74.netlify.app/)
+
+Catch Pokémon and manage them in your Pokédex. Built with ReactJS and [PokéAPI](https://pokeapi.co/).
 
 Generate a randomized Pokémon by pressing the `Shuffle Button`.\
 Catch the current Pokémon by hitting the `Pokéball Button`.\
